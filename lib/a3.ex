@@ -31,7 +31,7 @@ defmodule Assignment3 do
   end
 
   def startOn(url, args \\ []) do
-      pages = args[:maxPages] || 3
+      pages = args[:maxPages] || 10
       depth = args[:maxDepth] || 3
       run(url, pages, depth, 0)
   end
