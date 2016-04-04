@@ -1,14 +1,18 @@
 defmodule WebStats do
 
-  @tagCount %{}
-
   def getTags(url) do
 
-    case HTTPoison.get!(url) do
-      %HTTPoison.Response{body: body} ->
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body, headers: _}}
+       ->
         Regex.scan(~r/<[a-zA-Z][^<>]*>/, body)
-      _ -> IO.puts "An error has occurred!"
-      nil
+      {:ok, %HTTPoison.Response{status_code: 301, body: body, headers: _}} ->
+        Regex.scan(~r/<[a-zA-Z][^<>]*>/, body)
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        IO.puts "Not found :("
+      _ ->
+        IO.puts "An error has occurred!"
+        nil
     end
   end
 
@@ -20,8 +24,7 @@ defmodule WebStats do
 
   def parseHTML([], tagCount, links) do
     printTagCount(tagCount, links)
-    @tagCount = tagCount
-    links
+    [links, tagCount]
   end
 
   def parseHTML([tags_head | tags_tails], tagCount, links) do
