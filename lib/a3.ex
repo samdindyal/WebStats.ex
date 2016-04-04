@@ -12,7 +12,7 @@ defmodule Assignment3 do
     tags = WebStats.getTags(url)
     pagesFollowed = 0
 
-    if tags != nil do
+    if tags != nil && currentDepth < maxDepth - 1 do
       [links, tagCount] = WebStats.parseHTML(tags, %{}, %{})
       cascadeTagCounts(tagCount)
       followLoop(Map.keys(links), pages, maxDepth, currentDepth)
