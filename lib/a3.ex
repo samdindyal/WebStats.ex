@@ -19,19 +19,15 @@ defmodule Assignment3 do
     end
   end
 
-  def followLoop([], _, _, _) do
+  def followLoop([], _, _, _) do end
 
-  end
-
-  def followLoop(_, 0, _, _) do
-
-  end
+  def followLoop(_, 0, _, _) do end
 
 
   def followLoop([link | link_tail], maxFollow, maxDepth, currentDepth) do
     run(link, maxFollow, maxDepth, currentDepth+1)
     @links = Map.put(@links, link, true)
-    followLoop([link_tail], maxFollow-1, maxDepth, currentDepth)
+    followLoop(link_tail, maxFollow-1, maxDepth, currentDepth)
   end
 
   def startOn(url, args \\ []) do
@@ -50,7 +46,5 @@ defmodule Assignment3 do
       end
   end
 
-  def main(args) do
-
-  end
+  def main(args) do end
 end
