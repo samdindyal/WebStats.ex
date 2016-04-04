@@ -13,7 +13,11 @@ defmodule Assignment3 do
 
     if tags != nil && currentDepth < maxDepth - 1 do
       [links, tagCount] = WebStats.parseHTML(tags, %{}, %{})
-      @tagCount = cascadeTagCounts(tagCount)
+      cascade = cascadeTagCounts(@tagCount, tagCount)
+      if cascade != [] do
+          [@tagCount | _] = cascade
+      end
+
       followLoop(Map.keys(links), pages, maxDepth, currentDepth)
     end
 
@@ -46,23 +50,16 @@ defmodule Assignment3 do
       @tagCount
   end
 
-  def cascadeTagCounts(tagCount) do
-      for tag <- Map.keys(tagCount) do
-        if Map.has_key?(@tagCount, tag) do
-          # IO.puts "######\nYES #{tag} = #{globalTagCount[tag]}\n######"
-            # @tagCount = %{ @tagCount | tag => (tagCount[tag] + @tagCount[tag]) }
-            # IO.puts tagCount[tag] + @tagCount[tag]
-            # IO.puts "#{tag} EXISTS @tagcount[#{tag}] #{@tagCount[tag]}"
-            @tagCount = Map.put(tagCount, tag, tagCount[tag] + @tagCount[tag])
-            # IO.puts "#{globalTagCount[tag]}"
-        else
-          # IO.puts "######\nNO #{tag} = #{globalTagCount[tag]}\n######"
-          # globalTagCount = %{ globalTagCount | tag => 1 }
-          # IO.puts "#{tag} DOES NOT EXIST}"
-          @tagCount = Map.put(tagCount, tag, 1)
-        end
+  def cascadeTagCounts(map1, map2) do
+    for tag <- Map.keys(map2) do
+      if Map.has_key?(map1, tag) do
+        sum = (map1[tag]) + (map2[tag])
+        map1 = Map.put(map2, tag, sum)
+      else
+        map1 = Map.put(map1, tag, 1)
       end
-      @tagCount
+      map1
+    end
   end
 
   def main(args) do end
