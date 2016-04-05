@@ -15,14 +15,15 @@ defmodule WebStats do
     end
   end
 
-  def printTagCount(tagCount, links) do
-    for tag <- Map.keys(tagCount) do
+  def printTagCount(tagCount) do
+    links = Enum.sort(Map.keys(tagCount))
+    for tag <- links do
         IO.puts "#{tag} #{tagCount[tag]}"
     end
   end
 
   def parseHTML([], tagCount, links) do
-    printTagCount(tagCount, links)
+    printTagCount(tagCount)
     [links, tagCount]
   end
 

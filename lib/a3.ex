@@ -9,9 +9,10 @@ defmodule Assignment3 do
     IO.puts "GLOBAL COUNT"
     IO.puts "ROOT URL: #{url}\nMaxPages: #{pages}\t MaxDepth: #{maxDepth}\tCurrentDepth: #{currentDepth}"
     IO.puts "--------------------------------"
-    for tag <- Map.keys(tagCounts) do
-      IO.puts "#{tag} #{tagCounts[tag]}"
-    end
+    WebStats.printTagCount(tagCounts)
+    # for tag <- Map.keys(tagCounts) do
+    #   IO.puts "#{tag} #{tagCounts[tag]}"
+    # end
   end
 
   def followLoop([], _, _, _, tagCount) do tagCount end
