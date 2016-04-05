@@ -10,9 +10,10 @@ defmodule WebStats do
         Regex.scan(~r/<[a-zA-Z][^<>]*>/, body)
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
+        []
       _ ->
         IO.puts "An error has occurred!"
-        nil
+        []
     end
   end
 
