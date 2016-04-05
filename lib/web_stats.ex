@@ -34,7 +34,7 @@ defmodule WebStats do
     scan = Regex.scan(~r/<([A-Za-z]+)/, full_tag)
     [[_ | [tag | _]]|_] = scan
     tag = String.downcase(tag)
-    if tag == "a" && Regex.match?(~r/href="((http|https):\/\/[^"]*)"/, full_tag) do
+    if tag == "a" && full_tag =~ ~r/href="((http|https):\/\/[^"]*)"/ do
       scan = Regex.scan(~r/href="((http|https):\/\/[^"]*)"/, full_tag)
       [[_head|[link|_tail]]|_] = scan
       links = Map.put(links, link, false)
