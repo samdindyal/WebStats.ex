@@ -13,10 +13,7 @@ defmodule Assignment3 do
 
     if tags != nil && currentDepth < maxDepth - 1 do
       [links, tagCount] = WebStats.parseHTML(tags, %{}, %{})
-      cascade = cascadeTagCounts(@tagCount, tagCount)
-      if cascade != [] do
-          [@tagCount | _] = cascade
-      end
+      tagCount = merge(Map.keys(tagCount), @tagCount, tagCount)
 
       followLoop(Map.keys(links), pages, maxDepth, currentDepth)
     end
@@ -27,8 +24,8 @@ defmodule Assignment3 do
       IO.puts "ROOT URL: #{url}\nMaxPages: #{pages}\t MaxDepth: #{maxDepth}\tCurrentDepth: #{currentDepth}"
       IO.puts "--------------------------------"
 
-      for tag <- Map.keys(@tagCount) do
-        IO.puts "#{tag}"
+      for tag <- Map.keys(tagCount) do
+        IO.puts "#{tag} tagCount[tag]"
       end
     end
   end
@@ -50,15 +47,14 @@ defmodule Assignment3 do
       @tagCount
   end
 
-  def cascadeTagCounts(map1, map2) do
-    for tag <- Map.keys(map2) do
-      if Map.has_key?(map1, tag) do
-        sum = (map1[tag]) + (map2[tag])
-        map1 = Map.put(map2, tag, sum)
-      else
-        map1 = Map.put(map1, tag, 1)
-      end
-      map1
+  def merge([], map1, map2) do
+  map1
+  end
+  def merge([tag|tagList], map1, map2) do
+    if Map.has_key?(map1, tag) do
+        merge(tagList, Map.put(map1, tag, map1[tag] + map2[tag]), map2)
+    else
+        merge(tagList, Map.put(map1, tag, map2[tag]), map2)
     end
   end
 
