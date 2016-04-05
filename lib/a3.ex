@@ -14,15 +14,9 @@ defmodule Assignment3 do
     end
   end
 
-  def followLoop([], _, _, _, tagCount) do
-    tagCount
-  end
-  def followLoop(_, 0, _, _, tagCount) do
-    tagCount
-  end
-  def followLoop(_, _, 0, _, tagCount) do
-    tagCount
-  end
+  def followLoop([], _, _, _, tagCount) do tagCount end
+  def followLoop(_, 0, _, _, tagCount) do tagCount end
+  def followLoop(_, _, 0, _, tagCount) do tagCount end
 
   def followLoop([link | link_tail], maxFollow, depthCounter, links, tagCounts) do
 
