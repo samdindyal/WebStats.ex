@@ -63,6 +63,8 @@ defmodule Assignment3 do
     mergeLinks(links, Map.put(map1, link, map1[link] || map2[link]), map2)
   end
 
-  def main(args) do end
+  def main(args) do
+    Assignment3.startOn("http://cps506.sarg.ryerson.ca")
+  end
 
 end

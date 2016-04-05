@@ -1,19 +1,17 @@
 defmodule WebStats do
 
+  use HTTPoison.Base
   def getTags(url) do
+    HTTPoison.get!(url)
+    |> handleResponse
+  end
 
-    case HTTPoison.get(url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body, headers: _}}
-       ->
-        Regex.scan(~r/<[a-zA-Z][^<>]*>/, body)
-      {:ok, %HTTPoison.Response{status_code: 301, body: body, headers: _}} ->
-        Regex.scan(~r/<[a-zA-Z][^<>]*>/, body)
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-        []
-      _ ->
-        IO.puts "An error has occurred!"
-        []
+  def handleResponse(response) do
+    status_code = response.status_code
+    case status_code do
+      status_code when status_code in 200..299 -> Regex.scan(~r/<[a-zA-Z][^<>]*>/, response.body)
+      status_code when status_code in 300..399 -> []
+      status_code when status_code >= 400      -> []
     end
   end
 
