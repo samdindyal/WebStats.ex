@@ -10,12 +10,13 @@ defmodule Assignment3 do
     IO.puts "--------------------------------"
     tags = WebStats.getTags(url)
     pagesFollowed = 0
+    tagCounts = %{}
 
     if tags != nil && currentDepth < maxDepth - 1 do
       [links, tagCount] = WebStats.parseHTML(tags, %{}, %{})
-      tagCount = merge(Map.keys(tagCount), @tagCount, tagCount)
+      tagCounts = merge(Map.keys(tagCount), tagCounts, tagCount)
 
-      followLoop(Map.keys(links), pages, maxDepth, currentDepth)
+      followLoop(Map.keys(links), pages, maxDepth, currentDepth, links)
     end
 
     if (currentDepth == 0) do
@@ -23,31 +24,30 @@ defmodule Assignment3 do
       IO.puts "GLOBAL COUNT"
       IO.puts "ROOT URL: #{url}\nMaxPages: #{pages}\t MaxDepth: #{maxDepth}\tCurrentDepth: #{currentDepth}"
       IO.puts "--------------------------------"
-
-      for tag <- Map.keys(tagCount) do
-        IO.puts "#{tag} tagCount[tag]"
+      for tag <- Map.keys(tagCounts) do
+        IO.puts "#{tag} #{tagCounts[tag]}"
       end
     end
   end
 
-  def followLoop([], _, _, _) do end
+  def followLoop([], _, _, _, _) do end
 
-  def followLoop(_, 0, _, _) do end
+  def followLoop(_, 0, _, _, _) do end
 
-  def followLoop([link | link_tail], maxFollow, maxDepth, currentDepth) do
-    run(link, maxFollow, maxDepth, currentDepth+1)
-    @links = Map.put(@links, link, true)
-    followLoop(link_tail, maxFollow-1, maxDepth, currentDepth)
+  def followLoop([link | link_tail], maxFollow, maxDepth, currentDepth, links) do
+    if !links[link] do
+      run(link, maxFollow, maxDepth, currentDepth+1)
+    end
+    followLoop(link_tail, maxFollow-1, maxDepth, currentDepth, Map.put(links, link, true))
   end
 
   def startOn(url, args \\ []) do
       pages = args[:maxPages] || 10
       depth = args[:maxDepth] || 3
       run(url, pages, depth, 0)
-      @tagCount
   end
 
-  def merge([], map1, map2) do
+  def merge([], map1, _) do
   map1
   end
   def merge([tag|tagList], map1, map2) do
