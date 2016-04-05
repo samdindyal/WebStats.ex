@@ -18,7 +18,7 @@ To compile:
 mix escript.build
 ```
 
-To run, open the elixir shell with the command:
+To run, open the Elixir shell with the command:
 
 ```
 iex -S mix
