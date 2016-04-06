@@ -7,7 +7,7 @@ Given an initial URL, this application will scan and keep track of all the start
 
 
 ##Installation
-This application requires [Elixir](http://elixir-lang.org/install.html).
+This application requires [Elixir](http://elixir-lang.org/install.html) 1.2.x.
 
 
 
