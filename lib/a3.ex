@@ -47,8 +47,8 @@ defmodule Assignment3 do
   end
 
   def startOn(url, args \\ []) do
-      pages = args[:maxPages] || 2
-      depth = args[:maxDepth] || 2
+      pages = args[:maxPages] || 10
+      depth = args[:maxDepth] || 3
       run(url, pages, depth, 0)
   end
 
@@ -66,6 +66,29 @@ defmodule Assignment3 do
 
   def mergeLinks([link|links], map1, map2) do
     mergeLinks(links, Map.put(map1, link, map1[link] || map2[link]), map2)
+  end
+
+  def start_server do
+    Task.start_link(fn -> handler end)
+  end
+
+  def handler do
+    processes = []
+
+    receive do
+      {:done, link, process, tagCount} ->
+        processes = List.delete(processes, process)
+
+        tagCounts = Agent.get(tagA)
+
+        if List.first(processes) == nil do
+          IO.puts "--------------------------------"
+          IO.puts "GLOBAL COUNT"
+          IO.puts "ROOT URL: #{url}\nMaxPages: #{pages}\t MaxDepth: #{maxDepth}\tCurrentDepth: #{currentDepth}"
+          IO.puts "--------------------------------"
+          WebStats.printTagCount(tagCounts)
+          Process.exit(self(), "Done.")
+        end
   end
 
   def main(args) do
