@@ -1,6 +1,0 @@
-** (exit) exited in: GenServer.call(#PID<0.122.0>, {:update, #Function<0.105677138/1 in Assignment3.run/4>}, 5000)
-    ** (EXIT) no process
-    (elixir) lib/gen_server.ex:564: GenServer.call/3
-    (a3) lib/a3.ex:9: Assignment3.run/4
-    (elixir) lib/kernel/cli.ex:76: anonymous fn/3 in Kernel.CLI.exec_fun/2
-
