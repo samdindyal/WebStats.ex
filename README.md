@@ -2,7 +2,7 @@
 
 
 ##Synopsis
-This is a multithreaded, statistical web crawler written in Elixir.
+This is a statistical web crawler written in Elixir using [HTTPoison](https://github.com/edgurgel/httpoison).
 Given an initial URL, this application will scan and keep track of all the start-tags of the initial webpage as well as its connecting pages. The final listing will show all the webpages visited, the total number of start-tags found on each page, as well as a sorted global count for each start tag.
 
 
