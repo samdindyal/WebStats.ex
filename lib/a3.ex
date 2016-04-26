@@ -7,7 +7,7 @@ defmodule Assignment3 do
   Due: April 5th 2016
   Credit: This is entirely my own work.
 
-  This project is a simulation of a web crawler written in Elixir. Further details about our assignment can be found on GitHub at 	https://github.com/samdindyal/WebStats-Elixir. To efficiently identify all the start-tags and links on a web page, our crawler uses regular expressions and stores the matches in two seperate hash maps. The first hash map consists of start-tags. This hash map is used to keep track of the type of start-tag found and the count of that tag. The second hash map stores the links, and consists of the string value of the link and its visit status. All links start off with the visit status set to false. As each page is visited, the status of the link is updated in the hash map to true.
+  This project is a simulation of a web crawler written in Elixir. To efficiently identify all the start-tags and links on a web page, our crawler uses regular expressions and stores the matches in two seperate hash maps. The first hash map consists of start-tags. This hash map is used to keep track of the type of start-tag found and the count of that tag. The second hash map stores the links, and consists of the string value of the link and its visit status. All links start off with the visit status set to false. As each page is visited, the status of the link is updated in the hash map to true.
 
   In the best case scenario, all links found on the web page would be non-relative (in which case the crawler will follow it). To maximize the use of cores, the crawler uses concurrent threads. Every link followed by the crawler is assigned a thread. Agents in Elixir are used to allow threads to retrieve and update the hash maps of the start-tags and links. Each time a web page is done scanning, the thread updates the global count of the start-tags by merging the hash map of the current webpage to the global hash map of the start-tags.
   -------------------------------------------------------------
@@ -111,7 +111,6 @@ defmodule Assignment3 do
     mergeLinks(links, Map.put(map1, link, map1[link] || map2[link]), map2)
   end
 
-  # Main method
   def main(args) do
     Assignment3.startOn("http://cps506.sarg.ryerson.ca")
   end
